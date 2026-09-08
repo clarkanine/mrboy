@@ -5,7 +5,7 @@ import Media from './components/Media';
 import About from './components/About';
 import MailingList from './components/MailingList';
 
-type PageView = 'shows' | 'merch' | 'media' | 'about';
+type PageView = 'shows' | 'merch' | 'media' | 'about' | 'mailing-list';
 
 function App() {
   const [currentView, setCurrentView] = useState<PageView>('shows');
