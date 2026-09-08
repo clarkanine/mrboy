@@ -1,4 +1,4 @@
-import React from 'react';
+import type { ReactNode } from 'react';
 
 const LINKS = {
   spotify: 'https://open.spotify.com/artist/70Z7SWeDPYM31HVXu1w4Aj',
@@ -54,7 +54,13 @@ function AppleMusicIcon() {
   );
 }
 
-function LogoLink({ href, label, children }) {
+interface LogoLinkProps {
+  href: string;
+  label: string;
+  children: ReactNode;
+}
+
+function LogoLink({ href, label, children }: LogoLinkProps) {
   return (
     <button
       type="button"

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Papa from 'papaparse';
 
 // 1. Define the item structure data interface for TypeScript

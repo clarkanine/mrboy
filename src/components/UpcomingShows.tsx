@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Papa from "papaparse";
 
 // 1. Tell TypeScript what data fields each Google Sheet row will have
@@ -10,7 +10,7 @@ interface Gig {
   ticketLink?: string;
   defaultImg: string;
   hoverImg: string;
-  isDisplayed: boolean;
+  isDisplayed: string;
 }
 
 export default function UpcomingShows() {
