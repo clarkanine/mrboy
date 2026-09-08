@@ -20,6 +20,37 @@ function App() {
       boxSizing: 'border-box'
     }}>
 
+      {/* RETRO UNDER CONSTRUCTION BANNER */}
+      <div style={{
+        background: 'repeating-linear-gradient(45deg, #fdd835, #fdd835 10px, #212121 10px, #212121 20px)',
+        padding: '6px',
+        marginBottom: '15px',
+        boxShadow: 'inset -1px -1px #ffffff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080',
+        display: 'flex',
+        justifyContent: 'center'
+      }}>
+        <div style={{
+          backgroundColor: '#dfdfdf',
+          padding: '8px 20px',
+          fontFamily: '"MS Sans Serif", Geneva, sans-serif',
+          fontSize: '13px',
+          fontWeight: 'bold',
+          color: '#000000',
+          border: '2px solid #808080',
+          boxShadow: '1px 1px 0px #fff',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+          letterSpacing: '0.5px'
+        }}>
+          <span>🚧</span>
+          <span style={{ textTransform: 'uppercase' }}>
+            ⚠️ SITE UNDER CONSTRUCTION • PLEASE PARDON OUR DUST ⚠️
+          </span>
+          <span>🚧</span>
+        </div>
+      </div>
+
       {/* BRAND LOGO BANNER (Always stays above the sticky menu) */}
       <div style={{
         display: 'flex',
@@ -84,7 +115,7 @@ function App() {
           💾 About
         </button>
         <button
-              className={`status-bar-field ${currentView === 'about' ? 'active' : ''}`}
+              className={`status-bar-field ${currentView === 'mailing-list' ? 'active' : ''}`} // Fix: Corrected active class check
               style={{ flexGrow: 1, textAlign: 'center', padding: '6px 12px', cursor: 'pointer' }}
               onClick={() => setCurrentView('mailing-list')}
         >
