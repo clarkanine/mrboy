@@ -72,7 +72,7 @@ export default function NewsletterSignup() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@email.com"
-                style={{ flex: '1 1 180px', padding: '4px 6px' }}
+                style={{ flex: '1 1 180px', padding: '4px 6px', color: '#000000' }}
               />
               <button type="submit" disabled={status === 'submitting'}>
                 {status === 'submitting' ? 'Submitting...' : 'Sign Up'}

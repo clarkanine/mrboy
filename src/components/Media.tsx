@@ -1,4 +1,5 @@
-import type { ReactNode } from 'react';
+import { useState } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 const LINKS = {
   spotify: 'https://open.spotify.com/artist/70Z7SWeDPYM31HVXu1w4Aj',
@@ -7,6 +8,67 @@ const LINKS = {
 };
 
 const YOUTUBE_VIDEO_ID = 'qMV-MejTizk';
+
+// Add your photos here. `src` can be a path from /public or an imported image.
+const PHOTOS: { src: string; alt: string }[] = [
+  // { src: '/photos/show-01.jpg', alt: 'Live at the Roseland' },
+];
+
+type TabId = 'photos' | 'videos';
+
+const TABS: { id: TabId; label: string }[] = [
+  { id: 'photos', label: 'Photos' },
+  { id: 'videos', label: 'Videos' },
+];
+
+// Sunken bevel used around the video and photo thumbnails
+const sunkenFrame: CSSProperties = {
+  border: '2px solid #808080',
+  borderRightColor: '#fff',
+  borderBottomColor: '#fff',
+  background: '#000',
+};
+
+// Classic Win95 tab look, styled inline so it doesn't depend on the CSS framework's tab rules
+const tablistStyle: CSSProperties = {
+  display: 'flex',
+  alignItems: 'flex-end',
+  justifyContent: 'flex-start',
+  padding: '0 4px',
+  marginBottom: '-2px',
+  position: 'relative',
+  zIndex: 2,
+};
+
+const tabStyle = (selected: boolean): CSSProperties => ({
+  position: 'relative',
+  zIndex: selected ? 3 : 1,
+  padding: selected ? '5px 16px 4px' : '3px 16px',
+  marginBottom: selected ? 0 : '2px',
+  marginLeft: selected ? '-2px' : 0,
+  marginRight: selected ? '-2px' : 0,
+  background: '#c0c0c0',
+  borderTop: '2px solid #fff',
+  borderLeft: '2px solid #fff',
+  borderRight: '2px solid #404040',
+  borderBottom: 'none',
+  borderRadius: '3px 3px 0 0',
+  boxShadow: 'inset -1px 0 #808080, inset 1px 1px #dfdfdf',
+  cursor: 'default',
+  userSelect: 'none',
+});
+
+const panelStyle: CSSProperties = {
+  position: 'relative',
+  zIndex: 1,
+  background: '#c0c0c0',
+  padding: '8px',
+  borderTop: '2px solid #fff',
+  borderLeft: '2px solid #fff',
+  borderRight: '2px solid #404040',
+  borderBottom: '2px solid #404040',
+  boxShadow: 'inset -1px -1px #808080, inset 1px 1px #dfdfdf',
+};
 
 function SpotifyIcon() {
   return (
@@ -80,7 +142,76 @@ function LogoLink({ href, label, children }: LogoLinkProps) {
   );
 }
 
+function PhotosPanel() {
+  if (PHOTOS.length === 0) {
+    return (
+      <p style={{ margin: 0, textAlign: 'center' }}>
+        Photos are still developing in the darkroom.
+      </p>
+    );
+  }
+
+  return (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
+        gap: '8px',
+      }}
+    >
+      {PHOTOS.map((photo) => (
+        <a
+          key={photo.src}
+          href={photo.src}
+          target="_blank"
+          rel="noopener noreferrer"
+          title={photo.alt}
+          style={{ ...sunkenFrame, display: 'block', aspectRatio: '1 / 1', overflow: 'hidden' }}
+        >
+          <img
+            src={photo.src}
+            alt={photo.alt}
+            loading="lazy"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+        </a>
+      ))}
+    </div>
+  );
+}
+
+function VideosPanel() {
+  return (
+    <div
+      style={{
+        ...sunkenFrame,
+        position: 'relative',
+        width: '100%',
+        paddingBottom: '56.25%', // 16:9 aspect ratio
+        height: 0,
+      }}
+    >
+      <iframe
+        src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}`}
+        title="YouTube video"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowFullScreen
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          border: 'none',
+        }}
+      />
+    </div>
+  );
+}
+
 export default function Media() {
+  const [activeTab, setActiveTab] = useState<TabId>('videos');
+
   return (
     <div className="window" style={{ width: '100%' }}>
       <div className="title-bar">
@@ -108,33 +239,42 @@ export default function Media() {
           </LogoLink>
         </div>
 
-        {/* YOUTUBE EMBED */}
+        {/* TABS */}
+        <style>{`.media-tab:focus-visible { outline: 1px dotted #000; outline-offset: -6px; }`}</style>
+        <div role="tablist" aria-label="Media" style={tablistStyle}>
+          {TABS.map((tab) => (
+            <div
+              key={tab.id}
+              role="tab"
+              className="media-tab"
+              id={`media-tab-${tab.id}`}
+              aria-selected={activeTab === tab.id}
+              aria-controls="media-panel"
+              tabIndex={activeTab === tab.id ? 0 : -1}
+              style={tabStyle(activeTab === tab.id)}
+              onClick={() => setActiveTab(tab.id)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setActiveTab(tab.id);
+                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                  e.preventDefault();
+                  setActiveTab(tab.id === 'photos' ? 'videos' : 'photos');
+                }
+              }}
+            >
+              {tab.label}
+            </div>
+          ))}
+        </div>
+
         <div
-          style={{
-            position: 'relative',
-            width: '100%',
-            paddingBottom: '56.25%', // 16:9 aspect ratio
-            height: 0,
-            background: '#000',
-            border: '2px solid #808080',
-            borderRightColor: '#fff',
-            borderBottomColor: '#fff',
-          }}
+          role="tabpanel"
+          id="media-panel"
+          aria-labelledby={`media-tab-${activeTab}`}
+          style={panelStyle}
         >
-          <iframe
-            src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}`}
-            title="YouTube video"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              border: 'none',
-            }}
-          />
+          {activeTab === 'photos' ? <PhotosPanel /> : <VideosPanel />}
         </div>
 
       </div>
