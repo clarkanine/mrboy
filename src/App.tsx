@@ -4,9 +4,8 @@ import Merchandise from './components/Merchandise';
 import Media from './components/Media';
 import About from './components/About';
 import MailingList from './components/MailingList';
-import RunnerGame from './components/RunnerGame';
 
-type PageView = 'shows' | 'merch' | 'media' | 'about' | 'mailing-list';// TODO | 'runner-game';
+type PageView = 'shows' | 'merch' | 'media' | 'about' | 'mailing-list';
 
 function App() {
   const [currentView, setCurrentView] = useState<PageView>('shows');
@@ -122,14 +121,6 @@ function App() {
         >
           📰 Newsletter
         </button>
-        <button
-              className={`status-bar-field ${currentView === 'runner-game' ? 'active' : ''}`} // Fix: Corrected active class check
-              style={{ display: 'none', flexGrow: 1, textAlign: 'center', padding: '6px 12px', cursor: 'pointer' }} // TODO display when game ready
-              onClick={() => setCurrentView('runner-game')}
-        >
-          📰 Games
-        </button>
-
       </header>
 
       {/* 2. MAIN DISPLAY CONTENT: Flows naturally beneath the navbar */}
@@ -145,7 +136,6 @@ function App() {
         {currentView === 'media' && <Media />}
         {currentView === 'about' && <About />}
         {currentView === 'mailing-list' && <MailingList />}
-        {currentView === 'runner-game' && <RunnerGame />}
       </main>
 
     </div>
