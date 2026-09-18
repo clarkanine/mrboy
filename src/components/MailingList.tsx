@@ -55,7 +55,7 @@ export default function NewsletterSignup() {
       <div className="window-body" style={{ padding: '16px' }}>
         {status === 'done' ? (
           <p className="med-text" style={{ margin: 0 }}>
-            You're on the list. Thanks for signing up!
+            Welcome to the cult!
           </p>
         ) : (
           <>
@@ -71,7 +71,7 @@ export default function NewsletterSignup() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@email.com"
+                placeholder="mrboyfan@peepants.com"
                 style={{ flex: '1 1 180px', padding: '4px 6px', color: '#000000' }}
               />
               <button type="submit" disabled={status === 'submitting'}>
