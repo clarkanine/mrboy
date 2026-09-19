@@ -27,7 +27,10 @@ export default function Merchandise() {
           header: true,
           skipEmptyLines: true,
           complete: (results) => {
-            setMerchItems(results.data as MerchItem[]);
+            const visible = results.data.filter(
+                  (p) => p.img && p.isDisplayed?.trim().toUpperCase() === 'TRUE'
+                ).reverse();
+            setMerchItems(visible);
             setLoading(false);
           },
         });

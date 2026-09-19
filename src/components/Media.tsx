@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
+import Papa from 'papaparse';
 
 const LINKS = {
   spotify: 'https://open.spotify.com/artist/70Z7SWeDPYM31HVXu1w4Aj',
@@ -9,10 +10,20 @@ const LINKS = {
 
 const YOUTUBE_VIDEO_ID = 'qMV-MejTizk';
 
-// Add your photos here. `src` can be a path from /public or an imported image.
-const PHOTOS: { src: string; alt: string }[] = [
-  // { src: '/photos/show-01.jpg', alt: 'Live at the Roseland' },
-];
+// Published CSV for the "Photos" tab of the Google Sheet.
+// Same published sheet as Merchandise.tsx, but with the gid of the Photos tab.
+const PHOTOS_GID = '1223639188';
+const PHOTOS_CSV_URL = `https://docs.google.com/spreadsheets/d/e/2PACX-1vSFtNoOcfIDYG3PWQBCJan3PjR-JLbuW8HHAjvR_uVc0Ru0la2opZM6S2TdDjUUdUGFMvhmrkriL9el/pub?gid=${PHOTOS_GID}&single=true&output=csv`;
+
+// Sheet columns: id | img | caption | isDisplayed
+interface PhotoItem {
+  id?: string | number;
+  img: string;
+  caption?: string;
+  isDisplayed: string;
+}
+
+type LoadState = 'loading' | 'ready' | 'error';
 
 type TabId = 'photos' | 'videos';
 
@@ -142,8 +153,29 @@ function LogoLink({ href, label, children }: LogoLinkProps) {
   );
 }
 
-function PhotosPanel() {
-  if (PHOTOS.length === 0) {
+interface PhotosPanelProps {
+  photos: PhotoItem[];
+  status: LoadState;
+}
+
+function PhotosPanel({ photos, status }: PhotosPanelProps) {
+  if (status === 'loading') {
+    return (
+      <p style={{ margin: 0, textAlign: 'center' }}>
+        Developing photos...
+      </p>
+    );
+  }
+
+  if (status === 'error') {
+    return (
+      <p style={{ margin: 0, textAlign: 'center' }}>
+        Couldn&apos;t load photos. Refresh the page to try again.
+      </p>
+    );
+  }
+
+  if (photos.length === 0) {
     return (
       <p style={{ margin: 0, textAlign: 'center' }}>
         Photos are still developing in the darkroom.
@@ -155,26 +187,35 @@ function PhotosPanel() {
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
-        gap: '8px',
+        gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+        gap: '12px',
       }}
     >
-      {PHOTOS.map((photo) => (
-        <a
-          key={photo.src}
-          href={photo.src}
-          target="_blank"
-          rel="noopener noreferrer"
-          title={photo.alt}
-          style={{ ...sunkenFrame, display: 'block', aspectRatio: '1 / 1', overflow: 'hidden' }}
-        >
-          <img
-            src={photo.src}
-            alt={photo.alt}
-            loading="lazy"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-          />
-        </a>
+      {photos.map((photo, idx) => (
+        <div key={photo.id || idx} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <a
+            href={photo.img}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={photo.caption}
+            style={{ ...sunkenFrame, display: 'block', aspectRatio: '1 / 1', overflow: 'hidden' }}
+          >
+            <img
+              src={photo.img}
+              alt={photo.caption || 'Photo'}
+              loading="lazy"
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            />
+          </a>
+          {photo.caption && (
+            <p
+              className="small-text"
+              style={{ margin: 0, textAlign: 'center', color: '#000', overflowWrap: 'anywhere' }}
+            >
+              {photo.caption}
+            </p>
+          )}
+        </div>
       ))}
     </div>
   );
@@ -210,7 +251,42 @@ function VideosPanel() {
 }
 
 export default function Media() {
-  const [activeTab, setActiveTab] = useState<TabId>('videos');
+  const [activeTab, setActiveTab] = useState<TabId>('photos');
+  const [photos, setPhotos] = useState<PhotoItem[]>([]);
+  const [photosStatus, setPhotosStatus] = useState<LoadState>('loading');
+
+  // Fetch once when Media mounts (not when the Photos tab opens), so switching tabs never refetches.
+  useEffect(() => {
+    let cancelled = false;
+
+    fetch(PHOTOS_CSV_URL)
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.text();
+      })
+      .then((csvText) => {
+        Papa.parse<PhotoItem>(csvText, {
+          header: true,
+          skipEmptyLines: true,
+          complete: (results) => {
+            if (cancelled) return;
+            const visible = results.data.filter(
+              (p) => p.img && p.isDisplayed?.trim().toUpperCase() === 'TRUE'
+            ).reverse();
+            setPhotos(visible);
+            setPhotosStatus('ready');
+          },
+        });
+      })
+      .catch((err) => {
+        console.error('Error loading photos from sheet:', err);
+        if (!cancelled) setPhotosStatus('error');
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <div className="window" style={{ width: '100%' }}>
@@ -274,7 +350,11 @@ export default function Media() {
           aria-labelledby={`media-tab-${activeTab}`}
           style={panelStyle}
         >
-          {activeTab === 'photos' ? <PhotosPanel /> : <VideosPanel />}
+          {activeTab === 'photos' ? (
+            <PhotosPanel photos={photos} status={photosStatus} />
+          ) : (
+            <VideosPanel />
+          )}
         </div>
 
       </div>

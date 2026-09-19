@@ -41,12 +41,17 @@ export default function About() {
           {/* BLURB */}
           <div style={{ flex: '2 1 200px', minWidth: '0' }}>
             <p className='small-text' style={{ margin: 0 }}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-              in reprehenderit in voluptate velit esse cillum dolore eu
-              fugiat nulla pariatur.
+              Mr. Boy has traversed the Silly Swamp, the Goofy Gulf, and the Whimsical Waterfalls
+              to perform for YOU!
+            </p>
+            <p className='small-text' style={{ margin: 0 }}>
+              A three-piece band hailing from Portland Oregon, Mr. Boy gifts audiences near and nearer
+              with an eccentric visual and audio performance that will make you say "What's this band called?",
+              "Why are they wearing hotwheels?", or "That looks gay" (a compliment).
+            </p>
+            <p className='small-text' style={{ margin: 0 }}>
+              Comprised of Aaron (guitar/vocals), Bri (drums/vocals), and Chloe (bass/vocals), Mr. Boy
+              aims to please, baby.
             </p>
           </div>
         </div>

@@ -29,9 +29,11 @@ export default function UpcomingShows() {
           header: true,
           skipEmptyLines: true,
           complete: (results) => {
-            // Cast the parsed rows as our Gig interface type
-            setGigs(results.data as Gig[]);
-            setLoading(false);
+              const visible = (results.data as Gig[])
+                .filter((g) => g.isDisplayed === 'TRUE')
+                .reverse();
+              setGigs(visible);
+              setLoading(false);
           },
         });
       })
@@ -46,7 +48,7 @@ export default function UpcomingShows() {
     return (
       <div className="window" style={{ width: '100%', maxWidth: '100%' }}>
         <div className="title-bar">
-          <div className="title-bar-text large-text">SHOWS.EXE - Tour Dates</div>
+          <div className="title-bar-text large-text">SHOWS.EXE - Show Dates</div>
         </div>
         <div className="window-body" style={{ padding: '24px', textAlign: 'center', color: '#000' }}>
           Loading show database...
