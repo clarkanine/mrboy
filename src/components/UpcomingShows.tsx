@@ -25,7 +25,7 @@ export default function UpcomingShows() {
     fetch(sheetCsvUrl)
       .then((res) => res.text())
       .then((csvText) => {
-        Papa.parse(csvText, {
+        Papa.parse<Gig>(csvText, {
           header: true,
           skipEmptyLines: true,
           complete: (results) => {

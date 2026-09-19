@@ -23,7 +23,7 @@ export default function Merchandise() {
     fetch(sheetCsvUrl)
       .then((res) => res.text())
       .then((csvText) => {
-        Papa.parse(csvText, {
+        Papa.parse<MerchItem>(csvText, {
           header: true,
           skipEmptyLines: true,
           complete: (results) => {
