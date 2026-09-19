@@ -15,12 +15,14 @@ const YOUTUBE_VIDEO_ID = 'qMV-MejTizk';
 const PHOTOS_GID = '1223639188';
 const PHOTOS_CSV_URL = `https://docs.google.com/spreadsheets/d/e/2PACX-1vSFtNoOcfIDYG3PWQBCJan3PjR-JLbuW8HHAjvR_uVc0Ru0la2opZM6S2TdDjUUdUGFMvhmrkriL9el/pub?gid=${PHOTOS_GID}&single=true&output=csv`;
 
-// Sheet columns: id | img | caption | isDisplayed
+// Sheet columns: id | img | caption | isDisplayed | creditLink | creditName
 interface PhotoItem {
   id?: string | number;
   img: string;
   caption?: string;
   isDisplayed: string;
+  creditLink?: string;
+  creditName?: string;
 }
 
 type LoadState = 'loading' | 'ready' | 'error';
@@ -215,6 +217,20 @@ function PhotosPanel({ photos, status }: PhotosPanelProps) {
               {photo.caption}
             </p>
           )}
+          {photo.creditName && (
+            <p
+              className="small-text"
+              style={{ margin: 0, textAlign: 'center', overflowWrap: 'anywhere' }}
+            >Credit:
+              {photo.creditLink ? (
+                <a href={photo.creditLink} target="_blank" rel="noopener noreferrer">
+                  {photo.creditName}
+                </a>
+              ) : (
+                photo.creditName
+              )}
+            </p>
+          )}
         </div>
       ))}
     </div>
@@ -270,9 +286,9 @@ export default function Media() {
           skipEmptyLines: true,
           complete: (results) => {
             if (cancelled) return;
-            const visible = results.data.filter(
-              (p) => p.img && p.isDisplayed?.trim().toUpperCase() === 'TRUE'
-            ).reverse();
+            const visible = results.data
+              .filter((p) => p.img && p.isDisplayed?.trim().toUpperCase() === 'TRUE')
+              .reverse();
             setPhotos(visible);
             setPhotosStatus('ready');
           },
