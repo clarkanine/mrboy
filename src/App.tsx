@@ -4,6 +4,7 @@ import Merchandise from './components/Merchandise';
 import Media from './components/Media';
 import About from './components/About';
 import MailingList from './components/MailingList';
+import BlinkableImage from './components/BlinkableImage';
 
 type PageView = 'shows' | 'merch' | 'media' | 'about' | 'mailing-list';
 
@@ -19,39 +20,28 @@ function App() {
       padding: '12px',
       boxSizing: 'border-box'
     }}>
-
-      {/* RETRO UNDER CONSTRUCTION BANNER */}
-      <div style={{
-        background: 'repeating-linear-gradient(45deg, #fdd835, #fdd835 10px, #212121 10px, #212121 20px)',
-        padding: '6px',
-        marginBottom: '15px',
-        boxShadow: 'inset -1px -1px #ffffff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080',
-        display: 'flex',
-        justifyContent: 'center'
-      }}>
-        <div style={{
-          backgroundColor: '#dfdfdf',
-          padding: '8px 20px',
-          fontFamily: '"MS Sans Serif", Geneva, sans-serif',
-          fontSize: '13px',
-          fontWeight: 'bold',
-          color: '#000000',
-          border: '2px solid #808080',
-          boxShadow: '1px 1px 0px #fff',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '10px',
-          letterSpacing: '0.5px'
-        }}>
-          <span>🚧</span>
-          <span style={{ textTransform: 'uppercase' }}>
-            ⚠️ SITE UNDER CONSTRUCTION • PLEASE PARDON OUR DUST ⚠️
-          </span>
-          <span>🚧</span>
-        </div>
-      </div>
-
       {/* BRAND LOGO BANNER (Always stays above the sticky menu) */}
+      <div>
+        <button disabled
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%',
+                padding: '20px 0',
+                marginBottom: '10px'
+              }}>
+          <img
+            src="/bannerPhotos/mrboylogo.png"
+            alt="Mr. Boy"
+            style={{
+              display: 'block',
+              width: 'clamp(160px, 60vw, 400px)',
+              height: 'auto',
+              margin: '0 auto',
+            }}
+          />
+          </button>
       <div
       style={{
         display: 'flex',
@@ -61,25 +51,50 @@ function App() {
         padding: '20px 0',
         marginBottom: '10px'
       }}>
-      <div className="sunken-frame"
-      style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '100%',
-            }}>
-        <img
-          className="sunken-frame"
-          src="/bandPhotos/attentionBanner.jpg" // Put your logo file in your /public folder and link it here
-          alt="Band Logo"
+        <div className="sunken-frame"
           style={{
-            maxWidth: '100%',    // Controls the maximum width of the banner
-            width: '100%',
-            height: 'auto',
-            imageRendering: 'pixelated' // Optional: Gives your logo sharp pixelated retro styling if it's pixel art!
-          }}
-        />
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '33%%',
+                }}>
+            <BlinkableImage
+              originalSrc="/bannerPhotos/aaron_cartoon.png"
+              blinkSrc="/bannerPhotos/aaron_cartoon_blink.png"
+              bgColor="#eb7a34"
+              altText=""
+            />
         </div>
+        <div className="sunken-frame"
+          style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '33%%',
+                }}>
+            <BlinkableImage
+              originalSrc="/bannerPhotos/bri_cartoon.png"
+              blinkSrc="/bannerPhotos/bri_cartoon_blink.png"
+              bgColor="#eb7a34"
+              altText=""
+            />
+        </div>
+        <div className="sunken-frame"
+
+          style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '33%%',
+                }}>
+            <BlinkableImage
+              originalSrc="/bannerPhotos/chloe_cartoon.png"
+              blinkSrc="/bannerPhotos/chloe_cartoon_blink.png"
+              bgColor="#eb7a34"
+              altText=""
+            />
+        </div>
+      </div>
       </div>
 
       {/* 1. TOP NAV MENUBAR: Locked to the top of the viewport when scrolling */}
