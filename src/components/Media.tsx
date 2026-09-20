@@ -177,8 +177,8 @@ function PhotosPanel({ photos, status }: PhotosPanelProps) {
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
-        gap: '12px',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+        gap: '16px',
       }}
     >
       {photos.map((photo, idx) => (
@@ -188,7 +188,7 @@ function PhotosPanel({ photos, status }: PhotosPanelProps) {
             target="_blank"
             rel="noopener noreferrer"
             title={photo.caption}
-            className='sunken-frame'
+            className="sunken-frame"
             style={{ display: 'block', aspectRatio: '1 / 1', overflow: 'hidden' }}
           >
             <img
@@ -210,7 +210,8 @@ function PhotosPanel({ photos, status }: PhotosPanelProps) {
             <p
               className="small-text"
               style={{ margin: 0, textAlign: 'center', overflowWrap: 'anywhere' }}
-            >Credit:
+            >
+              Credit:{' '}
               {photo.creditLink ? (
                 <a href={photo.creditLink} target="_blank" rel="noopener noreferrer">
                   {photo.creditName}
@@ -294,7 +295,7 @@ export default function Media() {
   }, []);
 
   return (
-    <div className="window" style={{ width: '100%' }}>
+    <div className="window" style={{ width: '100%', maxWidth: '900px' }}>
       <div className="title-bar">
         <div className="title-bar-text large-text">Media.EXE</div>
       </div>
