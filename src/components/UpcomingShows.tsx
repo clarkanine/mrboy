@@ -65,7 +65,7 @@ export default function UpcomingShows() {
   return (
     <div className="window" style={{ width: '100%', maxWidth: '100%' }}>
       <div className="title-bar">
-        <div className="title-bar-text large-text">SHOWS.EXE - Tour Dates</div>
+        <div className="title-bar-text large-text">SHOWS.EXE - Show Dates</div>
       </div>
       <div className="window-body" style={{ padding: '12px' }}>
 
@@ -75,7 +75,8 @@ export default function UpcomingShows() {
           flexWrap: 'wrap',
           gap: '20px',
           alignItems: 'flex-start'
-        }}>
+        }}
+        className="win95-panel">
 
           {/* TOUR POSTER DISPLAY FRAME */}
           <div style={{

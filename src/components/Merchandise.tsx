@@ -69,7 +69,8 @@ export default function Merchandise() {
           gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
           gap: '16px',
           width: '100%'
-        }}>
+        }}
+        className="win95-panel">
           {merchItems.filter(i => i.isDisplayed === 'TRUE').map((item, idx) => {
             // 4. Safe String Normalization: Converts sheet "S, M, L" strings cleanly to dynamic arrays
             const cleanSizesArray = Array.isArray(item.sizes)

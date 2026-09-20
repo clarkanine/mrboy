@@ -52,7 +52,8 @@ function App() {
       </div>
 
       {/* BRAND LOGO BANNER (Always stays above the sticky menu) */}
-      <div style={{
+      <div
+      style={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -60,7 +61,15 @@ function App() {
         padding: '20px 0',
         marginBottom: '10px'
       }}>
+      <div className="sunken-frame"
+      style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+            }}>
         <img
+          className="sunken-frame"
           src="/bandPhotos/attentionBanner.jpg" // Put your logo file in your /public folder and link it here
           alt="Band Logo"
           style={{
@@ -70,6 +79,7 @@ function App() {
             imageRendering: 'pixelated' // Optional: Gives your logo sharp pixelated retro styling if it's pixel art!
           }}
         />
+        </div>
       </div>
 
       {/* 1. TOP NAV MENUBAR: Locked to the top of the viewport when scrolling */}
@@ -137,6 +147,18 @@ function App() {
         {currentView === 'about' && <About />}
         {currentView === 'mailing-list' && <MailingList />}
       </main>
+
+      {/* FOOTER */}
+      <footer className="window" style={{
+        marginTop: '20px',
+        padding: '8px',
+        textAlign: 'center',
+        borderRadius: 0
+      }}>
+        <span className="med-text" style={{ color: '#000' }}>
+          Contact: <a href="mailto:contact@mrboy.org">contact@mrboy.org</a>
+        </span>
+      </footer>
 
     </div>
   );

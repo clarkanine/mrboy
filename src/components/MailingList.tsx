@@ -52,7 +52,8 @@ export default function NewsletterSignup() {
       <div className="title-bar">
         <div className="title-bar-text large-text">NEWSLETTER.EXE</div>
       </div>
-      <div className="window-body" style={{ padding: '16px' }}>
+      <div style={{ padding: '16px' }}
+      className="win95-panel window-body">
         {status === 'done' ? (
           <p className="med-text" style={{ margin: 0 }}>
             Welcome to the cult!

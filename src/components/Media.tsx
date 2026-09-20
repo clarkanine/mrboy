@@ -71,18 +71,6 @@ const tabStyle = (selected: boolean): CSSProperties => ({
   userSelect: 'none',
 });
 
-const panelStyle: CSSProperties = {
-  position: 'relative',
-  zIndex: 1,
-  background: '#c0c0c0',
-  padding: '8px',
-  borderTop: '2px solid #fff',
-  borderLeft: '2px solid #fff',
-  borderRight: '2px solid #404040',
-  borderBottom: '2px solid #404040',
-  boxShadow: 'inset -1px -1px #808080, inset 1px 1px #dfdfdf',
-};
-
 function SpotifyIcon() {
   return (
     <svg viewBox="0 0 24 24" width="40" height="40" fill="#1DB954">
@@ -200,7 +188,8 @@ function PhotosPanel({ photos, status }: PhotosPanelProps) {
             target="_blank"
             rel="noopener noreferrer"
             title={photo.caption}
-            style={{ ...sunkenFrame, display: 'block', aspectRatio: '1 / 1', overflow: 'hidden' }}
+            className='sunken-frame'
+            style={{ display: 'block', aspectRatio: '1 / 1', overflow: 'hidden' }}
           >
             <img
               src={photo.img}
@@ -364,7 +353,8 @@ export default function Media() {
           role="tabpanel"
           id="media-panel"
           aria-labelledby={`media-tab-${activeTab}`}
-          style={panelStyle}
+          className="win95-panel"
+          style={{ position: 'relative', zIndex: 1 }}
         >
           {activeTab === 'photos' ? (
             <PhotosPanel photos={photos} status={photosStatus} />

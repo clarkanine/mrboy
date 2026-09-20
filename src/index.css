@@ -135,3 +135,41 @@ code {
     padding: 5px;
     line-height: 1.05;
 }
+
+.win95-panel {
+  background: #c0c0c0;
+  color: #000;
+  padding: 8px;
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #404040;
+  border-bottom: 2px solid #404040;
+  box-shadow: inset -1px -1px #808080, inset 1px 1px #dfdfdf;
+}
+
+.sunken-frame {
+  border: 2px solid #808080;
+  border-right-color: #fff;
+  border-bottom-color: #fff;
+  background: #000;
+}
+
+/* 1. Unvisited link */
+a:link {
+    color: #008080;
+}
+
+/* 2. Visited link */
+a:visited {
+    color: #6a5acd;
+}
+
+/* 3. Mouse-over/Hover link */
+a:hover {
+    color: #ff4500;
+}
+
+/* 4. Selected/Clicked link */
+a:active {
+    color: #ffd700;
+}

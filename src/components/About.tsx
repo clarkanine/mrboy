@@ -7,6 +7,7 @@ export default function About() {
       </div>
       <div className="window-body">
         <div
+        className="win95-panel"
           style={{
             display: 'flex',
             flexDirection: 'row',
