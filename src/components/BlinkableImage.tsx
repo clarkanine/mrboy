@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import type { CSSProperties } from 'react';
+import useSound from 'use-sound';
 
 interface BlinkableImageProps {
   originalSrc: string;
   blinkSrc: string;
   altText: string;
   bgColor?: string; // optional, defaults to transparent
+  soundEffect: string;
 }
 
 export default function BlinkableImage({
@@ -13,6 +15,7 @@ export default function BlinkableImage({
   blinkSrc,
   altText,
   bgColor = 'transparent',
+  soundEffect
 }: BlinkableImageProps) {
   const [isBlinking, setIsBlinking] = useState<boolean>(false);
 
@@ -22,10 +25,12 @@ export default function BlinkableImage({
     img.decode?.().catch(() => {}); // decode it too, so the first paint isn't delayed
   }, [blinkSrc]);
 
+  const [play] = useSound(soundEffect, { volume: 0.1 })
+
   const triggerBlink = (): void => {
     if (isBlinking) return;
     setIsBlinking(true);
-
+    play();
     setTimeout(() => {
       setIsBlinking(false);
     }, 300);

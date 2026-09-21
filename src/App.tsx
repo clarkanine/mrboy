@@ -63,6 +63,7 @@ function App() {
               blinkSrc="/bannerPhotos/aaron_cartoon_blink.png"
               bgColor="#eb7a34"
               altText=""
+              soundEffect="/sounds/blinksound1.mp3"
             />
         </div>
         <div className="sunken-frame"
@@ -77,6 +78,7 @@ function App() {
               blinkSrc="/bannerPhotos/bri_cartoon_blink.png"
               bgColor="#eb7a34"
               altText=""
+              soundEffect="/sounds/blinksound2.mp3"
             />
         </div>
         <div className="sunken-frame"
@@ -92,6 +94,7 @@ function App() {
               blinkSrc="/bannerPhotos/chloe_cartoon_blink.png"
               bgColor="#eb7a34"
               altText=""
+              soundEffect="/sounds/blinksound3.mp3"
             />
         </div>
       </div>
