@@ -104,21 +104,27 @@ export default function UpcomingShows() {
 
           {/* TOUR DATES TABLE */}
           <div style={{ flex: '2 1 400px', width: '100%' }}>
-            <div style={{ overflowX: 'auto', width: '100%', background: '#fff' }}>
+            <div style={{ width: '100%', background: '#fff' }}>
               <table
                 style={{
                   width: '100%',
                   borderCollapse: 'collapse',
-                  minWidth: '450px',
+                  tableLayout: 'fixed', // key change: columns fit the container, no forced scroll
                 }}
                 className="interactive"
               >
+                <colgroup>
+                  <col style={{ width: '20%' }} />
+                  <col style={{ width: '30%' }} />
+                  <col style={{ width: '25%' }} />
+                  <col style={{ width: '25%' }} />
+                </colgroup>
                 <thead>
                   <tr style={{ background: '#e0e0e0', color: '#000' }}>
-                    <th style={{ textAlign: 'left', padding: '6px' }}>Date</th>
-                    <th style={{ textAlign: 'left', padding: '6px' }}>Venue</th>
-                    <th style={{ textAlign: 'left', padding: '6px' }}>Location</th>
-                    <th style={{ textAlign: 'right', padding: '6px' }}>Status</th>
+                    <th style={{ textAlign: 'left', padding: '4px 2px', fontSize: '0.8em' }}>Date</th>
+                    <th style={{ textAlign: 'left', padding: '4px 2px', fontSize: '0.8em' }}>Venue</th>
+                    <th style={{ textAlign: 'left', padding: '4px 2px', fontSize: '0.8em' }}>Location</th>
+                    <th style={{ textAlign: 'left', padding: '4px 2px', fontSize: '0.8em' }}>Tix</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -137,17 +143,43 @@ export default function UpcomingShows() {
                           color: isHovered ? '#ffffff' : '#000000',
                         }}
                       >
-                        <td style={{ padding: '10px 6px' }}>{gig.date}</td>
-                        <td style={{ padding: '10px 6px' }}>{gig.venue}</td>
-                        <td style={{ padding: '10px 6px' }}>{gig.city}</td>
-                        <td style={{ padding: '10px 6px', textAlign: 'right' }}>
+                        <td style={{
+                          padding: '10px 2px',
+                          fontSize: '0.8em',
+                          overflowWrap: 'break-word',
+                          wordBreak: 'break-word',
+                        }}>
+                          {gig.date}
+                        </td>
+                        <td style={{
+                          padding: '10px 2px',
+                          fontSize: '0.8em',
+                          overflowWrap: 'break-word',
+                          wordBreak: 'break-word',
+                        }}>
+                          {gig.venue}
+                        </td>
+                        <td style={{
+                          padding: '10px 2px',
+                          fontSize: '0.8em',
+                          overflowWrap: 'break-word',
+                          wordBreak: 'break-word',
+                        }}>
+                          {gig.city}
+                        </td>
+                        <td style={{ padding: '10px 2px', textAlign: 'right' }}>
                           <button
                             onClick={() => gig.ticketLink && window.open(gig.ticketLink, '_blank')}
                             disabled={gig.status === 'Sold Out'}
                             style={{
-                              padding: '4px 12px',
+                              padding: '4px 6px',
+                              fontSize: '0.75em',
                               cursor: 'pointer',
-                              border: isHovered ? '2px solid #fff' : undefined
+                              border: isHovered ? '2px solid #fff' : '2px solid transparent',
+                              boxSizing: 'border-box',
+                              maxWidth: '100%',
+                              whiteSpace: 'normal', // let "Door Sale Only" wrap inside the button too
+                              lineHeight: 1.2,
                             }}
                           >
                             {gig.status}
