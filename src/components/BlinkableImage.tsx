@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import type { CSSProperties } from 'react';
 import useSound from 'use-sound';
 
@@ -18,14 +18,7 @@ export default function BlinkableImage({
   soundEffect
 }: BlinkableImageProps) {
   const [isBlinking, setIsBlinking] = useState<boolean>(false);
-
-  useEffect(() => {
-    const img = new Image();
-    img.src = blinkSrc;
-    img.decode?.().catch(() => {}); // decode it too, so the first paint isn't delayed
-  }, [blinkSrc]);
-
-  const [play] = useSound(soundEffect, { volume: 0.1 })
+  const [play] = useSound(soundEffect, { volume: 0.1 });
 
   const triggerBlink = (): void => {
     if (isBlinking) return;
@@ -36,39 +29,45 @@ export default function BlinkableImage({
     }, 300);
   };
 
-  // These depend on the bgColor prop, so they live inside the component
   const containerStyle: CSSProperties = {
     position: 'relative',
     display: 'inline-block',
     backgroundColor: bgColor,
   };
 
-  const overlayStyle: CSSProperties = {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover',
-    pointerEvents: 'none',
-    animation: 'flashEffect 0.3s ease-in-out',
-    backgroundColor: bgColor,
-  };
-
   return (
     <div style={containerStyle} onClick={triggerBlink}>
-      <img src={originalSrc} alt={altText} style={imageStyle} />
+      {/* Blink image sits underneath, always mounted and already painted */}
+      <img src={blinkSrc} alt="" style={baseImageStyle} aria-hidden="true" />
 
-      {isBlinking && (
-        <img src={blinkSrc} alt="" style={overlayStyle} />
-      )}
+      {/* Normal image sits on top; we just hide it momentarily to reveal the blink frame beneath */}
+      <img
+        src={originalSrc}
+        alt={altText}
+        style={{
+          ...overlayImageStyle,
+          opacity: isBlinking ? 0 : 1,
+        }}
+      />
     </div>
   );
 }
 
-// This one doesn't use any props, so it can stay outside
-const imageStyle: CSSProperties = {
+// Bottom layer: blink frame, always rendered
+const baseImageStyle: CSSProperties = {
+  display: 'block',
   width: '100%',
   height: '100%',
   objectFit: 'cover',
+};
+
+// Top layer: normal frame, stacked exactly over the base
+const overlayImageStyle: CSSProperties = {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
+  pointerEvents: 'none',
 };
